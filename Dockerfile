@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     dbus-user-session \
     ffmpeg \
+    git \
     fonts-liberation \
     libatk-bridge2.0-0 \
     libgbm1 \
