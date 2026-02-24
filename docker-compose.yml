@@ -1,9 +1,6 @@
 services:
   openclaw-gateway:
-    image: openclaw:local
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/31337ghost/openclaw:latest
     restart: unless-stopped
     cap_drop: ["ALL"]
     security_opt:
