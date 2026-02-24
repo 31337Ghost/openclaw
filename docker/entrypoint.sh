@@ -10,7 +10,7 @@ mkdir -p "${RUNTIME_DIR}"
 
 # Bootstrap only once: install OpenClaw if runtime binary is missing.
 if [ ! -x "${OPENCLAW_BIN}" ]; then
-  npm install --no-audit --no-fund --prefix "${RUNTIME_DIR}" "${PACKAGE_NAME}@${PACKAGE_VERSION}"
+  npm install --global --no-audit --no-fund --prefix "${RUNTIME_DIR}" "${PACKAGE_NAME}@${PACKAGE_VERSION}"
 fi
 
 exec "${OPENCLAW_BIN}" "$@"
