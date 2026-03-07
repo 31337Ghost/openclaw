@@ -1,11 +1,13 @@
 services:
   openclaw-gateway:
-    image: ghcr.io/openclaw/openclaw:${OPENCLAW_IMAGE_TAG:-2026.3.2}
+    image: ghcr.io/31337ghost/openclaw:latest
     init: true
     restart: unless-stopped
     cap_drop: ["ALL"]
     security_opt:
       - no-new-privileges:true
+    environment:
+      - OPENCLAW_VERSION=${OPENCLAW_VERSION:-2026.3.2}
     read_only: true
     tmpfs:
       - /tmp
@@ -13,7 +15,13 @@ services:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
     volumes:
       - openclaw_home:/home/node
-      - ./data/.openclaw:/home/node/.openclaw
+      - ./data:/home/node/.openclaw
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:18789/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 
 volumes:
   openclaw_home:
