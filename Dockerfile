@@ -12,6 +12,7 @@ RUN set -eux; \
       ca-certificates \
       chromium \
       curl \
+      ffmpeg \
       git \
       python3 \
       python3-pip \
