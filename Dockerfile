@@ -13,6 +13,8 @@ RUN set -eux; \
       chromium \
       curl \
       git \
+      python3 \
+      python3-pip \
       xvfb; \
     mkdir -p /home/node/.npm-global /home/node/.npm /home/node/.cache /home/node/.local/share; \
     chown -R node:node /home/node; \
