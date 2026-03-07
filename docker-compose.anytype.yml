@@ -1,0 +1,16 @@
+services:
+  anytype:
+    image: ghcr.io/anyproto/anytype-cli:latest
+    init: true
+    restart: unless-stopped
+    command: ["serve", "--listen-address", "0.0.0.0:31012"]
+    cap_drop: ["ALL"]
+    security_opt:
+      - no-new-privileges:true
+    expose:
+      - "31012"
+    volumes:
+      - anytype_data:/root/.config/anytype
+
+volumes:
+  anytype_data:
