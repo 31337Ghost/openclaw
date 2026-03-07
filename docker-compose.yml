@@ -1,6 +1,7 @@
 services:
   openclaw-gateway:
-    image: ghcr.io/31337ghost/openclaw:latest
+    image: ghcr.io/openclaw/openclaw:${OPENCLAW_IMAGE_TAG:-2026.3.2}
+    init: true
     restart: unless-stopped
     cap_drop: ["ALL"]
     security_opt:
@@ -8,8 +9,11 @@ services:
     read_only: true
     tmpfs:
       - /tmp
+    ports:
+      - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
     volumes:
+      - openclaw_home:/home/node
       - ./data/.openclaw:/home/node/.openclaw
-      - ./data/.npm-global:/home/node/.npm-global
-    environment:
-      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
+
+volumes:
+  openclaw_home:
