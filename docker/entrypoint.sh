@@ -19,11 +19,6 @@ if [ "$AUTO_INSTALL" = "1" ]; then
 
   if [ ! -f "$OPENCLAW_DIR/package.json" ]; then
     need_install=1
-  else
-    installed_version="$(node -p "require('$OPENCLAW_DIR/package.json').version" 2>/dev/null || true)"
-    if [ "$installed_version" != "$OPENCLAW_VERSION" ]; then
-      need_install=1
-    fi
   fi
 
   if [ "$need_install" -eq 0 ] && [ -n "$PACKAGES" ]; then
