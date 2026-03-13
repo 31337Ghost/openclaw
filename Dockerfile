@@ -14,6 +14,7 @@ RUN set -eux; \
       curl \
       ffmpeg \
       git \
+      openssh-client \
       python3 \
       python3-pip \
       xvfb; \
