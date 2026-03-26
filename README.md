@@ -1,5 +1,13 @@
 # OpenClaw Container
 
+## Python virtualenv
+
+The image includes `python3`, `python3-pip`, and `python3-venv`, so you can create isolated Python environments in the persisted home volume:
+
+```sh
+python3 -m venv /home/node/venvs/myenv
+```
+
 ## Restart
 
 The gateway container includes a built-in restart command:

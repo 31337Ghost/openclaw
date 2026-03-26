@@ -16,6 +16,7 @@ RUN set -eux; \
       git \
       openssh-client \
       python3 \
+      python3-venv \
       python3-pip \
       xvfb; \
     mkdir -p /home/node/.npm-global /home/node/.npm /home/node/.cache /home/node/.local/share; \
