@@ -24,7 +24,8 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod 755 /usr/local/bin/entrypoint.sh
+COPY docker/openclaw-restart.sh /usr/local/bin/openclaw-restart
+RUN chmod 755 /usr/local/bin/entrypoint.sh /usr/local/bin/openclaw-restart
 
 USER node
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
