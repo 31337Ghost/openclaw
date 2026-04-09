@@ -1,4 +1,5 @@
-FROM node:22-bookworm-slim
+ARG OPENCLAW_VERSION=latest
+FROM ghcr.io/openclaw/openclaw:${OPENCLAW_VERSION}
 
 USER root
 
@@ -6,28 +7,23 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV npm_config_cache=/home/node/.npm
 ENV PATH=/home/node/.npm-global/bin:${PATH}
 
-RUN set -eux; \
-    apt-get update; \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      ca-certificates \
-      chromium \
-      curl \
-      ffmpeg \
-      git \
-      openssh-client \
-      python3 \
-      python3-venv \
-      python3-pip \
-      xvfb; \
-    mkdir -p /home/node/.npm-global /home/node/.npm /home/node/.cache /home/node/.local/share; \
-    chown -R node:node /home/node; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    chromium \
+    ffmpeg \
+    openssh-client \
+    python3 \
+    python3-venv \
+    python3-pip \
+    xvfb \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN mkdir -p /home/node/.npm-global /home/node/.npm \
+    && chown -R node:node /home/node/.npm-global /home/node/.npm
+
 COPY docker/openclaw-restart.sh /usr/local/bin/openclaw-restart
-RUN chmod 755 /usr/local/bin/entrypoint.sh /usr/local/bin/openclaw-restart
+RUN chmod 755 /usr/local/bin/openclaw-restart
 
 USER node
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["openclaw", "gateway", "--allow-unconfigured"]
+RUN npm install -g @openai/codex @anthropic-ai/claude-code clawhub @steipete/summarize
+
+CMD ["node", "dist/index.js", "gateway", "--allow-unconfigured"]
