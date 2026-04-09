@@ -1,13 +1,16 @@
 COMPOSE := docker compose
 ANDROID_MCP_SCRIPT := ./scripts/install-android-mcp.sh
 
-.PHONY: up up-anytype android-mcp-install android-mcp-start android-mcp-stop android-mcp-restart android-mcp-status android-mcp-run
+.PHONY: up up-anytype up-infra android-mcp-install android-mcp-start android-mcp-stop android-mcp-restart android-mcp-status android-mcp-run
 
 up:
 	$(COMPOSE) -f docker-compose.yml up -d --pull always
 
 up-anytype:
 	$(COMPOSE) -f docker-compose.yml -f docker-compose.anytype.yml up -d --pull always
+
+up-infra:
+	$(COMPOSE) -f docker-compose.infra.yml up -d --pull always
 
 android-mcp-install:
 	$(ANDROID_MCP_SCRIPT) install

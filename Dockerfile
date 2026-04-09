@@ -24,9 +24,8 @@ COPY docker/openclaw-restart.sh /usr/local/bin/openclaw-restart
 RUN chmod 755 /usr/local/bin/openclaw-restart
 
 RUN curl -fsSL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogcli_0.12.0_linux_arm64.tar.gz \
-    | tar -xz -C /usr/local/bin gogcli \
-    && chmod 755 /usr/local/bin/gogcli \
-    && ln -s /usr/local/bin/gogcli /usr/local/bin/gog
+    | tar -xz -C /usr/local/bin gog \
+    && chmod 755 /usr/local/bin/gog
 
 USER node
 RUN npm install -g @openai/codex @anthropic-ai/claude-code clawhub @steipete/summarize
