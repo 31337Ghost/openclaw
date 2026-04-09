@@ -33,16 +33,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup crane
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Get upstream version
+        id: upstream
+        run: |
+          echo "version=$(crane config ghcr.io/openclaw/openclaw:latest | jq -r '.config.Labels["org.opencontainers.image.version"] // "unknown"')" >> $GITHUB_OUTPUT
+
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=tag
             type=raw,value=latest,enable={{is_default_branch}}
-            type=sha
+            type=raw,value=${{ steps.upstream.outputs.version }},enable={{is_default_branch}}
 
       - name: Build and push
         uses: docker/build-push-action@v6

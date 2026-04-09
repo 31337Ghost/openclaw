@@ -1,0 +1,41 @@
+name: Check Upstream And Rebuild
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      actions: write
+
+    steps:
+      - name: Setup crane
+        uses: imjasonh/setup-crane@v0.4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for new upstream version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(crane config ghcr.io/openclaw/openclaw:latest \
+            | jq -r '.config.Labels["org.opencontainers.image.version"] // "unknown"')
+
+          echo "Upstream version: $version"
+
+          if crane digest ghcr.io/31337ghost/openclaw:${version} >/dev/null 2>&1; then
+            echo "Already up to date ($version), skipping rebuild."
+          else
+            echo "New version detected ($version), triggering rebuild..."
+            gh workflow run docker-build-push.yml --repo ${{ github.repository }}
+          fi

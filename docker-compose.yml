@@ -12,15 +12,11 @@ services:
     ports:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
     volumes:
-      - openclaw_home:/home/node
       - ./data:/home/node/.openclaw
-      - ./ssh:/home/node/.ssh:ro
+      - ./ssh:/home/node/.ssh
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:18789/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 60s
-
-volumes:
-  openclaw_home:
