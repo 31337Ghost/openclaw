@@ -5,13 +5,16 @@ USER root
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV npm_config_cache=/home/node/.npm
-ENV PATH=/home/node/.npm-global/bin:${PATH}
+ENV PIPX_HOME=/home/node/.openclaw/.pipx
+ENV PIPX_BIN_DIR=/home/node/.openclaw/.pipx/bin
+ENV PATH=/home/node/.npm-global/bin:/home/node/.openclaw/.pipx/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     ffmpeg \
     jq \
     openssh-client \
+    pipx \
     python3 \
     python3-venv \
     python3-pip \
@@ -27,6 +30,7 @@ RUN chmod 755 /usr/local/bin/openclaw-restart
 RUN curl -fsSL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogcli_0.12.0_linux_arm64.tar.gz \
     | tar -xz -C /usr/local/bin gog \
     && chmod 755 /usr/local/bin/gog
+
 
 USER node
 RUN npm install -g @openai/codex @anthropic-ai/claude-code clawhub @steipete/summarize
