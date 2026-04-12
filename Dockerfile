@@ -7,6 +7,7 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV npm_config_cache=/home/node/.npm
 ENV PIPX_HOME=/home/node/.openclaw/.pipx
 ENV PIPX_BIN_DIR=/home/node/.openclaw/.pipx/bin
+ENV XDG_CONFIG_HOME=/home/node/.openclaw/workspace/.config
 ENV PATH=/home/node/.npm-global/bin:/home/node/.openclaw/.pipx/bin:${PATH}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
