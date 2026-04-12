@@ -9,8 +9,9 @@ up:
 up-anytype:
 	$(COMPOSE) -f docker-compose.yml -f docker-compose.anytype.yml up -d --pull always
 
+
 up-infra:
-	$(COMPOSE) -f docker-compose.infra.yml up -d --pull always
+	$(COMPOSE) -p infra -f docker-compose.infra.yml up -d --pull always
 
 update:
 	git fetch origin && git checkout -B main origin/main
