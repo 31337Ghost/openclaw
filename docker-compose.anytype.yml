@@ -11,6 +11,8 @@ services:
       - "31012"
     volumes:
       - anytype_data:/root/.config/anytype
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
 volumes:
   anytype_data:
