@@ -32,6 +32,7 @@ RUN curl -fsSL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogc
     | tar -xz -C /usr/local/bin gog \
     && chmod 755 /usr/local/bin/gog
 
+RUN curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh
 
 USER node
 RUN npm install -g @openai/codex @anthropic-ai/claude-code clawhub @steipete/summarize
