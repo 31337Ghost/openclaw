@@ -4,7 +4,6 @@ FROM ghcr.io/openclaw/openclaw:${OPENCLAW_VERSION}
 USER root
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-ENV npm_config_cache=/home/node/.npm
 ENV PIPX_HOME=/home/node/.openclaw/.pipx
 ENV PIPX_BIN_DIR=/home/node/.openclaw/.pipx/bin
 ENV XDG_CONFIG_HOME=/home/node/.openclaw/.config
@@ -22,8 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /home/node/.npm-global /home/node/.npm \
-    && chown -R node:node /home/node/.npm-global /home/node/.npm
+RUN mkdir -p /home/node/.npm-global \
+    && chown -R node:node /home/node/.npm-global
 
 COPY docker/openclaw-restart.sh /usr/local/bin/openclaw-restart
 RUN chmod 755 /usr/local/bin/openclaw-restart
@@ -35,6 +34,7 @@ RUN curl -fsSL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogc
 RUN curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh
 
 USER node
-RUN npm install -g @openai/codex @anthropic-ai/claude-code clawhub @steipete/summarize
+RUN npm_config_cache=/tmp/npm-build-cache npm install -g clawhub @steipete/summarize mcporter \
+    && rm -rf /tmp/npm-build-cache
 
 CMD ["node", "dist/index.js", "gateway", "--allow-unconfigured"]

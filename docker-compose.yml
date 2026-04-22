@@ -11,6 +11,8 @@ services:
       - /tmp
     ports:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
+    environment:
+      - npm_config_cache=/home/node/.openclaw/.npm
     volumes:
       - ./data:/home/node/.openclaw
       - ./ssh:/home/node/.ssh
