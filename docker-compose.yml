@@ -11,14 +11,10 @@ services:
       - /tmp
     ports:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
-    env_file:
-      - path: .env
-        required: false
-    environment:
-      - NPM_CONFIG_CACHE=/home/node/.openclaw/.npm
-      - XDG_CONFIG_HOME=/home/node/.openclaw/.config
     volumes:
       - ./data:/home/node/.openclaw
+      - ./data/.config:/home/node/.config
+      - ./data/.npm:/home/node/.npm
       - ./ssh:/home/node/.ssh
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:18789/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]

@@ -4,9 +4,11 @@ ANDROID_MCP_SCRIPT := ./scripts/install-android-mcp.sh
 .PHONY: up up-anytype up-infra update android-mcp-install android-mcp-start android-mcp-stop android-mcp-restart android-mcp-status android-mcp-run
 
 up:
+	mkdir -p ./data/.config ./data/.npm
 	$(COMPOSE) -f docker-compose.yml up -d --pull always
 
 up-anytype:
+	mkdir -p ./data/.config ./data/.npm
 	$(COMPOSE) -f docker-compose.yml -f docker-compose.anytype.yml up -d --pull always
 
 
