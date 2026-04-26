@@ -11,8 +11,12 @@ services:
       - /tmp
     ports:
       - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
+    env_file:
+      - path: .env
+        required: false
     environment:
-      - npm_config_cache=/home/node/.openclaw/.npm
+      - NPM_CONFIG_CACHE=/home/node/.openclaw/.npm
+      - XDG_CONFIG_HOME=/home/node/.openclaw/.config
     volumes:
       - ./data:/home/node/.openclaw
       - ./ssh:/home/node/.ssh
